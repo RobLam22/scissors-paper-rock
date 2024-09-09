@@ -9,10 +9,6 @@ let humanScore = 0;
 
 const playRound = (computerChoice, humanChoice) => {
 
-    // const winningMessage = console.log(`You win! ${humanChoice} beats ${computerChoice}`)
-    // const losingMessage = console.log(`You win! ${computerChoice} beats ${humanChoice}`)
-    // const drawMessage = console.log(`It's a tie! You both selected ${humanChoice}`)
-
     if (humanChoice.toLowerCase() === "scissors" && computerChoice === "paper") {
         humanScore++
         return console.log(`You win! ${humanChoice} beats ${computerChoice}`)
@@ -28,7 +24,6 @@ const playRound = (computerChoice, humanChoice) => {
         computerScore++
         return console.log(`You win! ${computerChoice} beats ${humanChoice}. The score is Player: ${humanScore}. Computer: ${computerScore}`)
     }
-
 }
 
 for (let i = 0; i < 5; i++) {
