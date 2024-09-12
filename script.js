@@ -2,30 +2,81 @@ const choices = ["scissors", "paper", "rock"]
 
 const getComputerChoice = () => choices[Math.floor(Math.random()*3)]
 
-const getPlayerChoice = () => prompt(`"scissors", "paper", "rock"?`)
-
-let computerScore = 0;
-let humanScore = 0;
+let scores = { computerScore: 0, playerScore: 0}
 
 const playRound = (computerChoice, humanChoice) => {
 
     if (humanChoice.toLowerCase() === "scissors" && computerChoice === "paper") {
-        humanScore++
-        return console.log(`You win! ${humanChoice} beats ${computerChoice}`)
+        scores.playerScore++
+        return updateLiveScore(), displayResult(`You win! ${humanChoice} beats ${computerChoice}.`)
     } else if (humanChoice.toLowerCase() === "paper" && computerChoice === "rock") {
-        humanScore++
-        return console.log(`You win! ${humanChoice} beats ${computerChoice}.  The score is Player: ${humanScore}. Computer: ${computerScore}`)
+        scores.playerScore++
+        return updateLiveScore(), displayResult(`You win! ${humanChoice} beats ${computerChoice}.`)
     } else if (humanChoice.toLowerCase() === "rock" && computerChoice === "scissors") {
-        humanScore++
-        return console.log(`You win! ${humanChoice} beats ${computerChoice}.  The score is Player: ${humanScore}. Computer: ${computerScore}`)
+        scores.playerScore++
+        return updateLiveScore(), displayResult(`You win! ${humanChoice} beats ${computerChoice}.`)
     } else if (humanChoice.toLowerCase() === computerChoice) {
-        return console.log(`It's a tie! You both selected ${humanChoice}.  The score is Player: ${humanScore}. Computer: ${computerScore}`)
+        return displayResult(`It's a tie! You both selected ${humanChoice}.`)
     } else {
-        computerScore++
-        return console.log(`You win! ${computerChoice} beats ${humanChoice}. The score is Player: ${humanScore}. Computer: ${computerScore}`)
+        scores.computerScore++
+        return updateLiveScore(), displayResult(`You lost! ${computerChoice} beats ${humanChoice}.`)
     }
 }
 
-for (let i = 0; i < 5; i++) {
-    playRound(getComputerChoice(), getPlayerChoice())
+const roundEnd = () => {}
+
+const createButtons = () => {
+    const div = document.createElement('div')
+    div.classList.add("buttonDiv")
+    document.body.appendChild(div)
+
+    choices.forEach(choice => {
+        const btn = document.createElement('button')
+        btn.id = choice
+        btn.value = choice
+        btn.innerText = choice
+        btn.addEventListener("click", (e) => playRound(getComputerChoice() ,e.target.value))
+        document.querySelector(".buttonDiv").appendChild(btn)
+    })
 }
+
+const createResult = () => {
+    const div = document.createElement('div')
+    div.classList.add("resultDiv")
+    document.body.appendChild(div)
+
+    const p = document.createElement('p')
+    p.id = 'result'
+    div.appendChild(p)
+}
+
+const createScoreboard = () => {
+    const div = document.createElement('div')
+    div.classList.add("scoreboardDiv")
+    document.body.appendChild(div)
+
+    for (const [key,value] of Object.entries(scores)) {
+        const p = document.createElement('p')
+        p.id = key
+        p.textContent = `${key}: ${value}`
+        div.appendChild(p)
+    }
+
+}
+
+const createPage = () => {
+    createButtons()
+    createResult()
+    createScoreboard()
+}
+
+createPage()
+
+const updateLiveScore = () => {
+    const computerScore = document.getElementById("computerScore")
+    computerScore.textContent = `Computer: ${scores.computerScore}`
+    const playerScore = document.getElementById("playerScore")
+    playerScore.textContent = `Player: ${scores.playerScore}`
+}
+
+const displayResult = (msg) => document.getElementById('result').textContent = msg
