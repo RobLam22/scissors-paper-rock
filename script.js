@@ -5,7 +5,6 @@ const getComputerChoice = () => choices[Math.floor(Math.random()*3)]
 let scores = { computerScore: 0, playerScore: 0}
 
 const playRound = (computerChoice, humanChoice) => {
-
     if (humanChoice === "scissors" && computerChoice === "paper") {
         scores.playerScore++
         return roundEnd(`You win! ${humanChoice} beats ${computerChoice}.`)
