@@ -6,28 +6,45 @@ let scores = { computerScore: 0, playerScore: 0}
 
 const playRound = (computerChoice, humanChoice) => {
 
-    if (humanChoice.toLowerCase() === "scissors" && computerChoice === "paper") {
+    if (humanChoice === "scissors" && computerChoice === "paper") {
         scores.playerScore++
-        return updateLiveScore(), displayResult(`You win! ${humanChoice} beats ${computerChoice}.`)
-    } else if (humanChoice.toLowerCase() === "paper" && computerChoice === "rock") {
+        return roundEnd(`You win! ${humanChoice} beats ${computerChoice}.`)
+    } else if (humanChoice === "paper" && computerChoice === "rock") {
         scores.playerScore++
-        return updateLiveScore(), displayResult(`You win! ${humanChoice} beats ${computerChoice}.`)
-    } else if (humanChoice.toLowerCase() === "rock" && computerChoice === "scissors") {
+        return updateLiveScore(), displayResult(`You win! ${humanChoice} beats ${computerChoice}.`), checkGameEnd()
+    } else if (humanChoice === "rock" && computerChoice === "scissors") {
         scores.playerScore++
-        return updateLiveScore(), displayResult(`You win! ${humanChoice} beats ${computerChoice}.`)
-    } else if (humanChoice.toLowerCase() === computerChoice) {
+        return updateLiveScore(), displayResult(`You win! ${humanChoice} beats ${computerChoice}.`), checkGameEnd()
+    } else if (humanChoice === computerChoice) {
         return displayResult(`It's a tie! You both selected ${humanChoice}.`)
     } else {
         scores.computerScore++
-        return updateLiveScore(), displayResult(`You lost! ${computerChoice} beats ${humanChoice}.`)
+        return updateLiveScore(), displayResult(`You lost! ${computerChoice} beats ${humanChoice}.`), checkGameEnd()
     }
 }
 
-const roundEnd = () => {}
+const displayResult = (msg) => document.getElementById('result').textContent = msg
+
+const checkGameEnd = () => {
+    if (scores.computerScore === 5) {
+        document.getElementById("buttonDiv").remove()
+        return displayResult(`Computer wins!`)
+    } else if (scores.playerScore === 5) {
+        document.getElementById("buttonDiv").remove()
+        return displayResult(`Player wins!`)
+    }
+}
+
+const roundEnd = (msg) => {
+    updateLiveScore()
+    displayResult(msg)
+    checkGameEnd()
+}
 
 const createButtons = () => {
     const div = document.createElement('div')
     div.classList.add("buttonDiv")
+    div.id = "buttonDiv"
     document.body.appendChild(div)
 
     choices.forEach(choice => {
@@ -61,7 +78,6 @@ const createScoreboard = () => {
         p.textContent = `${key}: ${value}`
         div.appendChild(p)
     }
-
 }
 
 const createPage = () => {
@@ -78,5 +94,3 @@ const updateLiveScore = () => {
     const playerScore = document.getElementById("playerScore")
     playerScore.textContent = `Player: ${scores.playerScore}`
 }
-
-const displayResult = (msg) => document.getElementById('result').textContent = msg
