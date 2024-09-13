@@ -11,15 +11,15 @@ const playRound = (computerChoice, humanChoice) => {
         return roundEnd(`You win! ${humanChoice} beats ${computerChoice}.`)
     } else if (humanChoice === "paper" && computerChoice === "rock") {
         scores.playerScore++
-        return updateLiveScore(), displayResult(`You win! ${humanChoice} beats ${computerChoice}.`), checkGameEnd()
+        return roundEnd(`You win! ${humanChoice} beats ${computerChoice}.`)
     } else if (humanChoice === "rock" && computerChoice === "scissors") {
         scores.playerScore++
-        return updateLiveScore(), displayResult(`You win! ${humanChoice} beats ${computerChoice}.`), checkGameEnd()
+        return roundEnd(`You win! ${humanChoice} beats ${computerChoice}.`)
     } else if (humanChoice === computerChoice) {
-        return displayResult(`It's a tie! You both selected ${humanChoice}.`)
+        return roundEnd(`It's a tie! You both selected ${humanChoice}.`)
     } else {
         scores.computerScore++
-        return updateLiveScore(), displayResult(`You lost! ${computerChoice} beats ${humanChoice}.`), checkGameEnd()
+        return roundEnd(`You lost! ${computerChoice} beats ${humanChoice}.`)
     }
 }
 
